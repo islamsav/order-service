@@ -1,0 +1,1 @@
+-- insert into customer (name, surname, city, phone, gender, email) values ('Иван', 'Петров', 'Москва', '79991112233', 'MALE', 'test@test.ru');
