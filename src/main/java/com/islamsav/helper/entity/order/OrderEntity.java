@@ -1,5 +1,7 @@
 package com.islamsav.helper.entity.order;
 
+import com.islamsav.helper.entity.customer.CustomerEntity;
+import com.islamsav.helper.entity.tag.Tag;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.Hibernate;
@@ -7,6 +9,8 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 @Getter
@@ -49,6 +53,16 @@ public class OrderEntity {
     @OneToOne(orphanRemoval = true)
     @JoinColumn(name = "order_address_id")
     private OrderAddressEntity orderAddress;
+
+    @ManyToMany
+    @JoinTable(name = "tag_to_order",
+            joinColumns = @JoinColumn(name = "order_id"),
+            inverseJoinColumns = @JoinColumn(name = "tag_id"))
+    private List<Tag> tags = new ArrayList<>();
+
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "customer_id")
+    private CustomerEntity customer;
 
     @Override
     public boolean equals(Object o) {

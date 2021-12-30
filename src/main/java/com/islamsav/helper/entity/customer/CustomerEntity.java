@@ -1,6 +1,7 @@
 package com.islamsav.helper.entity.customer;
 
 import com.islamsav.helper.entity.enums.GenderEnum;
+import com.islamsav.helper.entity.order.OrderEntity;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -10,6 +11,8 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 @Getter
@@ -47,6 +50,9 @@ public class CustomerEntity {
     @Column(name = "created_at")
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
     private LocalDateTime createdAt = LocalDateTime.now();
+
+    @OneToMany(mappedBy = "customer", orphanRemoval = true)
+    private List<OrderEntity> orders = new ArrayList<>();
 
     @Override
     public boolean equals(Object o) {
