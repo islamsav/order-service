@@ -1,4 +1,4 @@
-package com.islamsav.helper.service;
+package com.islamsav.helper.service.customer;
 
 import com.islamsav.helper.dto.customer.CustomerDto;
 import com.islamsav.helper.entity.customer.CustomerEntity;
@@ -7,6 +7,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
+
 @RequiredArgsConstructor
 @Service
 public class CustomerService {
@@ -14,6 +16,7 @@ public class CustomerService {
     @Autowired
     private final CustomerRepository customerRepository;
 
+    @Transactional
     public void saveCustomer(CustomerDto customer) {
         CustomerEntity customerEntity = new CustomerEntity();
         customerEntity.setCity(customer.getCity());

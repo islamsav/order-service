@@ -1,20 +1,18 @@
 package com.islamsav.helper.entity.order;
 
 import com.islamsav.helper.entity.customer.CustomerEntity;
-import com.islamsav.helper.entity.tag.Tag;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.Hibernate;
-import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 
 @Getter
 @Setter
+@NoArgsConstructor
 @Entity
 @Table(name = "\"order\"")
 public class OrderEntity {
@@ -34,35 +32,41 @@ public class OrderEntity {
     private Integer price;
 
     @Column(name = "created_at")
-    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
-    private LocalDateTime createdAt = LocalDateTime.now();
+    private LocalDateTime createdAt;
 
-    @Column(name = "views")
+    @Column(name = "views", columnDefinition = "integer default 0", insertable = false)
     private Integer views;
 
-    @Column(name = "requests")
+    @Column(name = "requests", columnDefinition = "integer default 0", insertable = false)
     private Integer requests;
 
     @Column(name = "closed_at")
-    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
     private LocalDateTime closedAt;
 
-    @Column(name = "is_active")
+    @Column(name = "is_active", columnDefinition = "boolean default false", insertable = false)
     private Boolean isActive;
 
-    @OneToOne(orphanRemoval = true)
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "order_address_id")
     private OrderAddressEntity orderAddress;
-
-    @ManyToMany
-    @JoinTable(name = "tag_to_order",
-            joinColumns = @JoinColumn(name = "order_id"),
-            inverseJoinColumns = @JoinColumn(name = "tag_id"))
-    private List<Tag> tags = new ArrayList<>();
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "customer_id")
     private CustomerEntity customer;
+
+    @PrePersist
+    private void prePersist() {
+        if (createdAt == null) {
+            createdAt = LocalDateTime.now();
+        }
+    }
+
+    public OrderEntity(String title, String descriptions, Integer price, OrderAddressEntity orderAddress) {
+        this.title = title;
+        this.descriptions = descriptions;
+        this.price = price;
+        this.orderAddress = orderAddress;
+    }
 
     @Override
     public boolean equals(Object o) {

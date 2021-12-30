@@ -1,6 +1,7 @@
 package com.islamsav.helper.entity.order;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.Hibernate;
 
@@ -9,6 +10,7 @@ import java.util.Objects;
 
 @Getter
 @Setter
+@NoArgsConstructor
 @Entity
 @Table(name = "order_address")
 public class OrderAddressEntity {
@@ -30,6 +32,12 @@ public class OrderAddressEntity {
     @OneToOne(orphanRemoval = true)
     @JoinColumn(name = "order_id")
     private OrderEntity order;
+
+    public OrderAddressEntity(Float latitude, Float longitude, String position) {
+        this.latitude = latitude;
+        this.longitude = longitude;
+        this.position = position;
+    }
 
     @Override
     public boolean equals(Object o) {

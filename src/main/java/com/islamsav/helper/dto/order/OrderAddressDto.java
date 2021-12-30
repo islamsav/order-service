@@ -2,11 +2,13 @@ package com.islamsav.helper.dto.order;
 
 import com.islamsav.helper.entity.order.OrderAddressEntity;
 import lombok.Builder;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.io.Serializable;
 
-@Data
+@Getter
+@Setter
 @Builder
 public class OrderAddressDto implements Serializable {
 
